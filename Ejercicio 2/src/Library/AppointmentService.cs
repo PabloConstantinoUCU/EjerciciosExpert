@@ -5,48 +5,63 @@ namespace Library
 {
     public class AppointmentService
     {
-        public static string CreateAppointment(string name, string id, string phoneNumber, DateTime date, string appoinmentPlace, string doctorName)
+        private Paciente Paciente;
+        private Doctor Doctor;
+        private DateTime Date;
+        private string AppoinmentPlace;
+
+        static int Counter = 0;
+        public AppointmentService(Doctor doctor, DateTime date, string appoinmentPlace, Paciente paciente)
         {
-            StringBuilder stringBuilder = new StringBuilder("Scheduling appointment...\n");
             Boolean isValid = true;
 
-            if (string.IsNullOrEmpty(name))
+            this.Paciente = paciente;
+            this.Doctor = doctor;
+            this.Date = date;
+            this.AppoinmentPlace = appoinmentPlace;
             {
-                stringBuilder.Append("Unable to schedule appointment, 'name' is required\n");
-                isValid = false;
+                
             }
 
-            if (string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(appoinmentPlace))
             {
-                stringBuilder.Append("Unable to schedule appointment, 'id' is required\n");
-                isValid = false;
-            }
-
-            if (string.IsNullOrEmpty(phoneNumber))
-            {
-                stringBuilder.Append("Unable to schedule appointment, 'phone number' is required\n");
+                Console.WriteLine("Unable to schedule appointment, 'name' is required\n");
                 isValid = false;
             }
 
             if (string.IsNullOrEmpty(appoinmentPlace))
             {
-                stringBuilder.Append("Unable to schedule appointment, 'appoinment place' is required\n");
+                Console.WriteLine("Unable to schedule appointment, 'appoinment place' is required\n");
                 isValid = false;
             }
 
 
-            if (string.IsNullOrEmpty(doctorName))
+            if (string.IsNullOrEmpty(doctor.GetNombre()))
             {
-                stringBuilder.Append("Unable to schedule appointment, 'doctor name' is required\n");
+                Console.WriteLine("Unable to schedule appointment, 'doctor name' is required\n");
                 isValid = false;
             }
 
             if (isValid)
             {
-                stringBuilder.Append("Appoinment scheduled");
+                Console.WriteLine("Appoinment scheduled");
             }
 
-            return stringBuilder.ToString();
+            SetCounter(GetCounter()+1);
+        }
+        public static int GetCounter()
+        {
+            return Counter;
+        }
+
+        public static void SetCounter(int count)
+        {
+            Counter = count;
+        }
+
+        public string PrintAppointment()
+        {
+            return $" Fecha: {this.Date} \n Nombre Paciente: {this.Paciente.GetNombre()} \n Nombre Doctor: {this.Doctor.GetNombre()} \n Lugar: {this.AppoinmentPlace}";
         }
 
     }
